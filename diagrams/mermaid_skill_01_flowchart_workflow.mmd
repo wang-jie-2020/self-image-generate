@@ -1,0 +1,62 @@
+flowchart TD
+    Start([👤 用户请求]) --> Analyze[🔎 分析用户意图]
+    Analyze --> Route{🎯 判断请求类型}
+
+    Route -->|流程 / 业务逻辑| Activity[📋 Activity Diagram Guide]
+    Route -->|部署 / 云 / K8s| Deploy[☁️ Deployment Diagram Guide]
+    Route -->|架构 / 组件| Arch[🏗️ Architecture Diagram Guide]
+    Route -->|API / 交互流程| Sequence[🔁 Sequence Diagram Guide]
+    Route -->|代码转图| CodeToDiagram[🧩 Code-to-Diagram Guide]
+    Route -->|设计文档| DesignDoc[📄 Design Document Template]
+    Route -->|Unicode / 图标| Unicode[✨ Unicode Symbols Guide]
+    Route -->|提取 / 校验 / 转图片| Scripts[🐍 Python Scripts]
+
+    Activity --> LoadGuide[📚 按需读取专用指南]
+    Deploy --> LoadGuide
+    Arch --> LoadGuide
+    Sequence --> LoadGuide
+    CodeToDiagram --> LoadGuide
+    DesignDoc --> LoadGuide
+    Unicode --> LoadGuide
+
+    Scripts --> Execute[⚙️ 执行脚本工具]
+
+    LoadGuide --> Generate[🧠 生成 Mermaid 图或文档]
+    Generate --> Style[🎨 添加 Unicode 语义符号和高对比样式]
+
+    Style --> NeedExport{🛡️ 需要保存 / 转图片 / 写入文档?}
+
+    NeedExport -->|否| Output[📤 直接输出 Mermaid 代码]
+    NeedExport -->|是| SaveMmd[💾 保存 .mmd 文件]
+
+    SaveMmd --> Validate{✅ Mermaid 校验通过?}
+
+    Validate -->|是| Render[🖼️ 生成 PNG / SVG]
+    Render --> AddMarkdown[📝 可选加入 Markdown 引用]
+    AddMarkdown --> Output
+
+    Validate -->|否| Troubleshoot[🔧 查 troubleshooting guide]
+    Troubleshoot --> Fix{🧩 找到修复方案?}
+
+    Fix -->|是| Generate
+    Fix -->|否| ExternalSearch[🌐 外部搜索 / 其他工具辅助]
+    ExternalSearch --> Generate
+
+    Execute --> Output
+    Output --> Done([✅ 交付结果])
+
+    classDef start fill:#90EE90,stroke:#333,stroke-width:2px,color:darkgreen
+    classDef process fill:#87CEEB,stroke:#333,stroke-width:2px,color:darkblue
+    classDef decision fill:#FFD700,stroke:#333,stroke-width:2px,color:black
+    classDef guide fill:#E6E6FA,stroke:#333,stroke-width:2px,color:darkblue
+    classDef script fill:#FFE4B5,stroke:#333,stroke-width:2px,color:#8B4513
+    classDef error fill:#FFB6C1,stroke:#DC143C,stroke-width:2px,color:black
+    classDef output fill:#98FB98,stroke:#228B22,stroke-width:2px,color:darkgreen
+
+    class Start,Done start
+    class Analyze,LoadGuide,Generate,Style,SaveMmd,Render,AddMarkdown,ExternalSearch process
+    class Route,NeedExport,Validate,Fix decision
+    class Activity,Deploy,Arch,Sequence,CodeToDiagram,DesignDoc,Unicode guide
+    class Scripts,Execute script
+    class Troubleshoot error
+    class Output output
